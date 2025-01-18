@@ -5,17 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Video example - three-projected-material</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <script type="module" src="./build/ProjectedMaterial.module.js"></script>
   </head>
-  <body>
+
     <canvas id="app"></canvas>
-    <a
-      class="source-fab"
-      target="_blank"
-      href="https://github.com/marcofugaro/three-projected-material/blob/master/examples/video.html"
-      title="View source code on GitHub"
-    >
-      <img src="images/source.svg" />
-    </a>
+
 
     <script type="module">
       import * as THREE from 'three'
@@ -50,7 +44,7 @@
 
       // create a video element and play it
       const video = document.createElement('video')
-      video.src = './images/bigbucksbunny.mp4'
+      video.src = './fcl.mp4'
       video.muted = true
       video.loop = true
       video.play()
@@ -73,13 +67,39 @@
         }
       })
       cinemaModel.scale.setScalar(0.1)
+
+
+      const gltf2 = await loadGltf('./models/brut/scene.gltf')
+      const mod2 = gltf2.scene
+
+     mod2.traverse((child) => {
+        if (child.isMesh) {
+          if (child.material.map) {
+            child.material.map.encoding = THREE.LinearEncoding
+          }
+          if (child.material.color.getHexString() !== 'ffffff') {
+            child.material.color.convertLinearToSRGB()
+          }
+        }
+      })
+    mod2.position.set(4, -.50, 0)
+      mod2.scale.setScalar(0.061);
+
+      const gltf3 = await loadGltf('./models/sky_dome.glb')
+      const dome = gltf3.scene
+
+dome.scale.setScalar(4.7)
+
       webgl.scene.add(cinemaModel)
+      webgl.scene.add(mod2)
+      webgl.scene.add(dome)
+
 
       // create the video projector!
       const projector = new THREE.PerspectiveCamera(30, 16 / 9, 0.01, 2)
-      projector.position.set(0, 0.55, 1.52)
+      projector.position.set(0, 0.55,2.0)
       const helper = new THREE.CameraHelper(projector)
-      const gui = webgl.gui.add({ showProjector: false }, 'showProjector')
+      const gui = webgl.gui.add({ showProjector: true }, 'showProjector')
       gui.onChange((showProjector) => {
         if (showProjector) {
           webgl.scene.add(helper)
@@ -120,3 +140,4 @@
     </script>
   </body>
 </html>
+//""
