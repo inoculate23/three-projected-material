@@ -69,21 +69,7 @@
       cinemaModel.scale.setScalar(0.1)
 
 
-      const gltf2 = await loadGltf('./models/brut/scene.gltf')
-      const mod2 = gltf2.scene
 
-     mod2.traverse((child) => {
-        if (child.isMesh) {
-          if (child.material.map) {
-            child.material.map.encoding = THREE.LinearEncoding
-          }
-          if (child.material.color.getHexString() !== 'ffffff') {
-            child.material.color.convertLinearToSRGB()
-          }
-        }
-      })
-    mod2.position.set(4, -.50, 0)
-      mod2.scale.setScalar(0.061);
 
       const gltf3 = await loadGltf('./models/sky_dome.glb')
       const dome = gltf3.scene
