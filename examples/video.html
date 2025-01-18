@@ -5,13 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Video example - three-projected-material</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
-    <script type="module" src="../build/ProjectedMaterial.module.js"></script>
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three/build/three.module.js"
+    }
+  }
+</script>
+
   </head>
 
     <canvas id="app"></canvas>
 
 
     <script type="module">
+        import ProjectedMaterial from 'https://unpkg.com/three-projected-material/build/ProjectedMaterial.module.js'
+
       import * as THREE from 'three'
       import WebGLApp from './lib/WebGLApp.js'
       import ProjectedMaterial from '..'
